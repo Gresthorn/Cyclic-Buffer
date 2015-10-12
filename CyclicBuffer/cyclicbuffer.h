@@ -54,7 +54,14 @@ public:
      * \param buffer_size an integer number representing the buffer size in bytes.
      * \param success if memory was allocated successfully, the return value is 0, otherwise the error code.
      */
-    CyclicBuffer(unsigned int buf_size, int *success);
+    CyclicBuffer(unsigned int buf_size, int &success);
+
+    //! Destructor of buffer class. Deletes all buffered data and frees memory.
+    /*!
+      * \brief The destructor of class will safely remove all buffered data and frees allocated memory.
+      * After this procedure there is no way to refresh data again.
+      */
+    ~CyclicBuffer(void);
 
     //! Function is about to push new value to the buffer.
     /*!

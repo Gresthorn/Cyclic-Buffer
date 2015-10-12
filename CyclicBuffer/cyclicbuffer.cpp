@@ -1,13 +1,13 @@
 #include "cyclicbuffer.h"
 
-CyclicBuffer::CyclicBuffer(unsigned int buf_size, int *success)
+CyclicBuffer::CyclicBuffer(unsigned int buf_size, int & success)
 {
     buffer_error_code = BUFFER_UNDEFINED_ERROR;
 
     // check if buf_size is reasonable number
     if(buf_size==0)
     {
-        (*success) = buffer_error_code = BUFFER_INVALID_SIZE;
+        success = buffer_error_code = BUFFER_INVALID_SIZE;
         return;
     }
 
@@ -15,7 +15,7 @@ CyclicBuffer::CyclicBuffer(unsigned int buf_size, int *success)
     // try to allocate requested memory
     if(buffer==NULL)
     {
-        (*success) = buffer_error_code = BUFFER_ALLOCATION_ERROR;
+        success = buffer_error_code = BUFFER_ALLOCATION_ERROR;
         return;
     }
 
@@ -30,6 +30,13 @@ CyclicBuffer::CyclicBuffer(unsigned int buf_size, int *success)
     ClearBuffer();
 
     write_ptr = read_ptr = 0;
+
+    success = BUFFER_OK;
+}
+
+CyclicBuffer::~CyclicBuffer()
+{
+    delete buffer;
 }
 
 void CyclicBuffer::Push(unsigned char ch)
